@@ -60,7 +60,7 @@ class YearSelectorState extends State<YearSelector> {
         page * 12 +
         index;
     final bool isEnabled = _isEnabled(year);
-    return FlatButton(
+    return ElevatedButton(
       onPressed: isEnabled ? () => widget.onYearSelected(year) : null,
       color: year == widget.initialDate!.year
           ? Theme.of(context).accentColor

@@ -65,7 +65,7 @@ class MonthSelectorState extends State<MonthSelector> {
 
   Widget _getMonthButton(final DateTime date, final String locale) {
     final bool isEnabled = _isEnabled(date);
-    return FlatButton(
+    return ElevatedButton(
       onPressed: isEnabled
           ? () => widget.onMonthSelected(DateTime(date.year, date.month))
           : null,
