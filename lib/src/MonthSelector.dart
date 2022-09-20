@@ -99,14 +99,6 @@ class MonthSelectorState
               ? Theme.of(context).accentColor
               : null,
           minimumSize: Size(50, 50)),
-
-      // textColor: date.month == widget.selectedDate!.month &&
-      //         date.year == widget.selectedDate!.year
-      //     ? Theme.of(context).accentTextTheme.button!.color
-      //     : date.month == DateTime.now().month &&
-      //             date.year == DateTime.now().year
-      //         ? Theme.of(context).accentColor
-      //         : null,
       child: Text(
         DateFormat.MMM(locale).format(date),
         style: TextStyle(

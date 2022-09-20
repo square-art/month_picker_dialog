@@ -8,8 +8,11 @@ import 'locale_utils.dart';
 
 class YearSelector extends StatefulWidget {
   final ValueChanged<int> onYearSelected;
-  final DateTime? initialDate, firstDate, lastDate;
-  final PublishSubject<UpDownPageLimit> upDownPageLimitPublishSubject;
+  final DateTime? initialDate,
+      firstDate,
+      lastDate;
+  final PublishSubject<UpDownPageLimit>
+      upDownPageLimitPublishSubject;
   final PublishSubject<UpDownButtonEnableState>
       upDownButtonEnableStatePublishSubject;
   final Locale? locale;
@@ -24,45 +27,74 @@ class YearSelector extends StatefulWidget {
     this.locale,
   })  : assert(initialDate != null),
         assert(onYearSelected != null),
-        assert(upDownPageLimitPublishSubject != null),
-        assert(upDownButtonEnableStatePublishSubject != null),
+        assert(upDownPageLimitPublishSubject !=
+            null),
+        assert(
+            upDownButtonEnableStatePublishSubject !=
+                null),
         super(key: key);
   @override
-  State<StatefulWidget> createState() => YearSelectorState();
+  State<StatefulWidget> createState() =>
+      YearSelectorState();
 }
 
-class YearSelectorState extends State<YearSelector> {
+class YearSelectorState
+    extends State<YearSelector> {
   PageController? _pageController;
 
   @override
-  Widget build(BuildContext context) => PageView.builder(
+  Widget build(BuildContext context) =>
+      PageView.builder(
         controller: _pageController,
         scrollDirection: Axis.vertical,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics:
+            const AlwaysScrollableScrollPhysics(),
         onPageChanged: _onPageChange,
         itemCount: _getPageCount(),
         itemBuilder: _yearGridBuilder,
       );
 
-  Widget _yearGridBuilder(final BuildContext context, final int page) =>
+  Widget _yearGridBuilder(
+          final BuildContext context,
+          final int page) =>
       GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
+        physics:
+            const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(8.0),
         crossAxisCount: 4,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
         children: List<Widget>.generate(
           12,
-          (final int index) => _getYearButton(page, index, getLocale(context, selectedLocale: widget.locale)),
+          (final int index) => _getYearButton(
+              page,
+              index,
+              getLocale(context,
+                  selectedLocale: widget.locale)),
         ).toList(growable: false),
       );
 
-  Widget _getYearButton(final int page, final int index, final String locale) {
-    final int year = (widget.firstDate == null ? 0 : widget.firstDate!.year) +
+  Widget _getYearButton(final int page,
+      final int index, final String locale) {
+    final int year = (widget.firstDate == null
+            ? 0
+            : widget.firstDate!.year) +
         page * 12 +
         index;
     final bool isEnabled = _isEnabled(year);
     return ElevatedButton(
-      onPressed: isEnabled ? () => widget.onYearSelected(year) : null,
-      
+      onPressed: isEnabled
+          ? () => widget.onYearSelected(year)
+          : null,
+      style: ElevatedButton.styleFrom(
+          maximumSize: Size(50, 50),
+          fixedSize: Size(50, 50),
+          primary:
+              year == widget.initialDate!.year
+                  ? Theme.of(context).accentColor
+                  : null,
+          minimumSize: Size(50, 50)),
+
       // color: year == widget.initialDate!.year
       //     ? Theme.of(context).accentColor
       //     : null,
@@ -70,46 +102,78 @@ class YearSelectorState extends State<YearSelector> {
       //     ? Theme.of(context).accentTextTheme.button!.color
       //     : year == DateTime.now().year ? Theme.of(context).accentColor : null,
       child: Text(
-        DateFormat.y(locale).format(DateTime(year)),
+        DateFormat.y(locale)
+            .format(DateTime(year)),
+        style: TextStyle(
+          color: year == widget.initialDate!.year
+              ? Theme.of(context)
+                  .accentTextTheme
+                  .button!
+                  .color
+              : year == DateTime.now().year
+                  ? Theme.of(context).accentColor
+                  : null,
+        ),
       ),
     );
   }
 
   void _onPageChange(final int page) {
-    widget.upDownPageLimitPublishSubject.add(new UpDownPageLimit(
-        widget.firstDate == null
-            ? page * 12
-            : widget.firstDate!.year + page * 12,
-        widget.firstDate == null
-            ? page * 12 + 11
-            : widget.firstDate!.year + page * 12 + 11));
-    if (page == 0 || page == _getPageCount() - 1) {
-      widget.upDownButtonEnableStatePublishSubject.add(
-        new UpDownButtonEnableState(page > 0, page < _getPageCount() - 1),
+    widget.upDownPageLimitPublishSubject.add(
+        new UpDownPageLimit(
+            widget.firstDate == null
+                ? page * 12
+                : widget.firstDate!.year +
+                    page * 12,
+            widget.firstDate == null
+                ? page * 12 + 11
+                : widget.firstDate!.year +
+                    page * 12 +
+                    11));
+    if (page == 0 ||
+        page == _getPageCount() - 1) {
+      widget.upDownButtonEnableStatePublishSubject
+          .add(
+        new UpDownButtonEnableState(
+            page > 0, page < _getPageCount() - 1),
       );
     }
   }
 
   int _getPageCount() {
-    if (widget.firstDate != null && widget.lastDate != null) {
-      if (widget.lastDate!.year - widget.firstDate!.year <= 12)
+    if (widget.firstDate != null &&
+        widget.lastDate != null) {
+      if (widget.lastDate!.year -
+              widget.firstDate!.year <=
+          12)
         return 1;
       else
-        return ((widget.lastDate!.year - widget.firstDate!.year + 1) / 12).ceil();
-    } else if (widget.firstDate != null && widget.lastDate == null) {
+        return ((widget.lastDate!.year -
+                    widget.firstDate!.year +
+                    1) /
+                12)
+            .ceil();
+    } else if (widget.firstDate != null &&
+        widget.lastDate == null) {
       return (_getItemCount() / 12).ceil();
-    } else if (widget.firstDate == null && widget.lastDate != null) {
+    } else if (widget.firstDate == null &&
+        widget.lastDate != null) {
       return (_getItemCount() / 12).ceil();
     } else
       return (9999 / 12).ceil();
   }
 
   int _getItemCount() {
-    if (widget.firstDate != null && widget.lastDate != null) {
-      return widget.lastDate!.year - widget.firstDate!.year + 1;
-    } else if (widget.firstDate != null && widget.lastDate == null) {
+    if (widget.firstDate != null &&
+        widget.lastDate != null) {
+      return widget.lastDate!.year -
+          widget.firstDate!.year +
+          1;
+    } else if (widget.firstDate != null &&
+        widget.lastDate == null) {
       return (9999 - widget.firstDate!.year);
-    } else if (widget.firstDate == null && widget.lastDate != null) {
+    } else if (widget.firstDate == null &&
+        widget.lastDate != null) {
       return widget.lastDate!.year;
     } else
       return 9999;
@@ -119,21 +183,36 @@ class YearSelectorState extends State<YearSelector> {
   void initState() {
     _pageController = new PageController(
         initialPage: widget.firstDate == null
-            ? (widget.initialDate!.year / 12).floor()
-            : ((widget.initialDate!.year - widget.firstDate!.year) / 12).floor());
+            ? (widget.initialDate!.year / 12)
+                .floor()
+            : ((widget.initialDate!.year -
+                        widget.firstDate!.year) /
+                    12)
+                .floor());
     super.initState();
     new Future.delayed(Duration.zero, () {
-      widget.upDownPageLimitPublishSubject.add(new UpDownPageLimit(
+      widget.upDownPageLimitPublishSubject
+          .add(new UpDownPageLimit(
         widget.firstDate == null
             ? _pageController!.page!.toInt() * 12
-            : widget.firstDate!.year + _pageController!.page!.toInt() * 12,
+            : widget.firstDate!.year +
+                _pageController!.page!.toInt() *
+                    12,
         widget.firstDate == null
-            ? _pageController!.page!.toInt() * 12 + 11
-            : widget.firstDate!.year + _pageController!.page!.toInt() * 12 + 11,
+            ? _pageController!.page!.toInt() *
+                    12 +
+                11
+            : widget.firstDate!.year +
+                _pageController!.page!.toInt() *
+                    12 +
+                11,
       ));
-      widget.upDownButtonEnableStatePublishSubject.add(
-        new UpDownButtonEnableState(_pageController!.page!.toInt() > 0,
-            _pageController!.page!.toInt() < _getPageCount() - 1),
+      widget.upDownButtonEnableStatePublishSubject
+          .add(
+        new UpDownButtonEnableState(
+            _pageController!.page!.toInt() > 0,
+            _pageController!.page!.toInt() <
+                _getPageCount() - 1),
       );
     });
   }
@@ -145,7 +224,8 @@ class YearSelectorState extends State<YearSelector> {
   }
 
   bool _isEnabled(final int year) {
-    if (widget.firstDate == null && widget.lastDate == null)
+    if (widget.firstDate == null &&
+        widget.lastDate == null)
       return true;
     else if (widget.firstDate != null &&
         widget.lastDate != null &&
