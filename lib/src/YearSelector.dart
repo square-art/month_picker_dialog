@@ -62,12 +62,13 @@ class YearSelectorState extends State<YearSelector> {
     final bool isEnabled = _isEnabled(year);
     return ElevatedButton(
       onPressed: isEnabled ? () => widget.onYearSelected(year) : null,
-      color: year == widget.initialDate!.year
-          ? Theme.of(context).accentColor
-          : null,
-      textColor: year == widget.initialDate!.year
-          ? Theme.of(context).accentTextTheme.button!.color
-          : year == DateTime.now().year ? Theme.of(context).accentColor : null,
+      
+      // color: year == widget.initialDate!.year
+      //     ? Theme.of(context).accentColor
+      //     : null,
+      // textColor: year == widget.initialDate!.year
+      //     ? Theme.of(context).accentTextTheme.button!.color
+      //     : year == DateTime.now().year ? Theme.of(context).accentColor : null,
       child: Text(
         DateFormat.y(locale).format(DateTime(year)),
       ),
