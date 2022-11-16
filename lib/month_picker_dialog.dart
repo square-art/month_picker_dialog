@@ -146,18 +146,23 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
         ElevatedButton(
           onPressed: () => Navigator.pop(context, null),
           child: Text(widget.localizations.cancelButtonLabel),
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xffDA930E),
+            )
         ),
         ElevatedButton(
           onPressed: () => Navigator.pop(context, selectedDate),
           child: Text(widget.localizations.okButtonLabel),
-        )
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xffDA930E),
+            ))
       ],
     );
   }
 
   Widget buildHeader(ThemeData theme, String locale) {
     return Material(
-      color: theme.primaryColor,
+      color: Color(0xffDA930E),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
