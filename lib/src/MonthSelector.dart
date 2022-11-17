@@ -91,24 +91,17 @@ class MonthSelectorState
       style: ElevatedButton.styleFrom(
           maximumSize: Size(50, 50),
           fixedSize: Size(50, 50),
-          primary: Color(0xffDA930E),
+          primary: date.month ==
+                      widget
+                          .selectedDate!.month &&
+                  date.year ==
+                      widget.selectedDate!.year
+              ? Color(0xffC7870D)
+              : Color(0xffECA00F),
           minimumSize: Size(50, 50)),
       child: Text(
         DateFormat.MMM(locale).format(date),
-        style: TextStyle(
-            color: date.month ==
-                        widget.selectedDate!
-                            .month && 
-                    date.year ==
-                        widget.selectedDate!.year
-                ? Color(0xffFF8D24)
-                : date.month ==
-                            DateTime.now()
-                                .month &&
-                        date.year ==
-                            DateTime.now().year
-                    ? Colors.black
-                    : Colors.white),
+        style: TextStyle(color: Colors.white),
       ),
     );
   }

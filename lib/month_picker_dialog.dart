@@ -162,7 +162,7 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
 
   Widget buildHeader(ThemeData theme, String locale) {
     return Material(
-      color: Color(0xffDA930E),
+      color: Color(0xffECA00F),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
