@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/src/common.dart';
 import 'package:rxdart/rxdart.dart';
@@ -99,10 +100,15 @@ class MonthSelectorState
               ? Color(0xffC7870D)
               : Color(0xffECA00F),
           minimumSize: Size(50, 50)),
-      child: Text(
-        DateFormat.MMM(locale).format(date),
-        style: TextStyle(color: Colors.white),
-      ),
+        // child: Text(
+        //   DateFormat.MMM(locale).format(date),
+        //   style: TextStyle(color: Colors.white),
+        // ),
+        child: Text(
+            DateFormat.MMM(locale).format(date),
+            style: GoogleFonts.roboto(
+                textStyle: TextStyle(
+                    color: Colors.white)))
     );
   }
 

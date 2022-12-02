@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/src/common.dart';
 import 'package:rxdart/rxdart.dart';
@@ -89,10 +90,11 @@ class YearSelectorState
       style: ElevatedButton.styleFrom(
           maximumSize: Size(50, 50),
           fixedSize: Size(50, 50),
-          primary:
-              year == widget.initialDate!.year
-                  ? Theme.of(context).accentColor
-                  : null,
+            // primary:
+            //     year == widget.initialDate!.year
+            //           ? Color(0xffC7870D)
+            //           : Color(0xffECA00F),
+            primary: Color(0xffECA00F),
           minimumSize: Size(50, 50)),
 
       // color: year == widget.initialDate!.year
@@ -101,20 +103,31 @@ class YearSelectorState
       // textColor: year == widget.initialDate!.year
       //     ? Theme.of(context).accentTextTheme.button!.color
       //     : year == DateTime.now().year ? Theme.of(context).accentColor : null,
-      child: Text(
-        DateFormat.y(locale)
+        // child: Text(
+        //   DateFormat.y(locale)
+        //       .format(DateTime(year)),
+        //   style: TextStyle(
+        //     color: year == widget.initialDate!.year
+        //         ? Theme.of(context)
+        //             .accentTextTheme
+        //             .button!
+        //             .color
+        //         : year == DateTime.now().year
+        //             ? Theme.of(context).accentColor
+        //             : null,
+        //   ),
+        // ),
+        //  child: Text(
+        //   DateFormat.y(locale)
+        //       .format(DateTime(year)),
+        //   // style: TextStyle(color: Colors.white),
+        // )
+        child: Text(
+            DateFormat.y(locale)
             .format(DateTime(year)),
-        style: TextStyle(
-          color: year == widget.initialDate!.year
-              ? Theme.of(context)
-                  .accentTextTheme
-                  .button!
-                  .color
-              : year == DateTime.now().year
-                  ? Theme.of(context).accentColor
-                  : null,
-        ),
-      ),
+            style: GoogleFonts.roboto(
+                textStyle: TextStyle(
+                    color: Colors.white)))
     );
   }
 
