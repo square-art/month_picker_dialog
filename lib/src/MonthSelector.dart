@@ -17,6 +17,8 @@ class MonthSelector extends StatefulWidget {
   final PublishSubject<UpDownButtonEnableState>
       upDownButtonEnableStatePublishSubject;
   final Locale? locale;
+  final Color? color;
+  final Color? colorSelected;
   const MonthSelector({
     Key? key,
     required DateTime this.openDate,
@@ -26,7 +28,7 @@ class MonthSelector extends StatefulWidget {
     required this.upDownButtonEnableStatePublishSubject,
     this.firstDate,
     this.lastDate,
-    this.locale,
+    this.locale, this.color, this.colorSelected,
   })  : assert(openDate != null),
         assert(selectedDate != null),
         assert(onMonthSelected != null),
@@ -85,21 +87,21 @@ class MonthSelectorState
       final DateTime date, final String locale) {
     final bool isEnabled = _isEnabled(date);
     return ElevatedButton(
-      onPressed: isEnabled
-          ? () => widget.onMonthSelected(
-              DateTime(date.year, date.month))
-          : null,
-      style: ElevatedButton.styleFrom(
-          maximumSize: Size(50, 50),
-          fixedSize: Size(50, 50),
-          primary: date.month ==
-                      widget
-                          .selectedDate!.month &&
-                  date.year ==
-                      widget.selectedDate!.year
-              ? Color(0xffC7870D)
-              : Color(0xffECA00F),
-          minimumSize: Size(50, 50)),
+        onPressed: isEnabled
+            ? () => widget.onMonthSelected(
+                DateTime(date.year, date.month))
+            : null,
+        style: ElevatedButton.styleFrom(
+            maximumSize: Size(50, 50),
+            fixedSize: Size(50, 50),
+            primary: date.month ==
+                        widget.selectedDate!
+                            .month &&
+                    date.year ==
+                        widget.selectedDate!.year
+                ? widget.colorSelected ?? Color(0xffC7870D)
+                : widget.color ?? Color(0xffECA00F),
+            minimumSize: Size(50, 50)),
         // child: Text(
         //   DateFormat.MMM(locale).format(date),
         //   style: TextStyle(color: Colors.white),
@@ -108,8 +110,7 @@ class MonthSelectorState
             DateFormat.MMM(locale).format(date),
             style: GoogleFonts.roboto(
                 textStyle: TextStyle(
-                    color: Colors.white)))
-    );
+                    color: Colors.white))));
   }
 
   void _onPageChange(final int page) {

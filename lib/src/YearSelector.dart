@@ -17,6 +17,8 @@ class YearSelector extends StatefulWidget {
   final PublishSubject<UpDownButtonEnableState>
       upDownButtonEnableStatePublishSubject;
   final Locale? locale;
+  final Color? color;
+  final Color? colorSelected;
   const YearSelector({
     Key? key,
     required DateTime this.initialDate,
@@ -26,6 +28,8 @@ class YearSelector extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.locale,
+    this.color,
+    this.colorSelected,
   })  : assert(initialDate != null),
         assert(onYearSelected != null),
         assert(upDownPageLimitPublishSubject !=
@@ -94,7 +98,8 @@ class YearSelectorState
             //     year == widget.initialDate!.year
             //           ? Color(0xffC7870D)
             //           : Color(0xffECA00F),
-            primary: Color(0xffECA00F),
+            primary:
+                widget.color ?? Color(0xffECA00F),
           minimumSize: Size(50, 50)),
 
       // color: year == widget.initialDate!.year

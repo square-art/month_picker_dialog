@@ -42,6 +42,8 @@ class _MonthPickerDialog extends StatefulWidget {
   final DateTime? initialDate, firstDate, lastDate;
   final MaterialLocalizations localizations;
   final Locale? locale;
+  final Color? color;
+  final Color? colorSelected;
 
   const _MonthPickerDialog({
     Key? key,
@@ -50,6 +52,8 @@ class _MonthPickerDialog extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.locale,
+    this.color,
+    this.colorSelected,
   }) : super(key: key);
 
   @override
@@ -90,6 +94,8 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
       lastDate: _lastDate,
       onMonthSelected: _onMonthSelected,
       locale: widget.locale,
+      color: widget.color,
+      colorSelected: widget.colorSelected,
     );
   }
 
@@ -147,14 +153,16 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
           onPressed: () => Navigator.pop(context, null),
           child: Text(widget.localizations.cancelButtonLabel),
             style: ElevatedButton.styleFrom(
-              primary: Color(0xffDA930E),
+              primary: widget.color ??
+                  Color(0xffDA930E),
             )
         ),
         ElevatedButton(
           onPressed: () => Navigator.pop(context, selectedDate),
           child: Text(widget.localizations.okButtonLabel),
             style: ElevatedButton.styleFrom(
-              primary: Color(0xffDA930E),
+              primary: widget.color ??
+                  Color(0xffDA930E),
             ))
       ],
     );
@@ -162,7 +170,7 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
 
   Widget buildHeader(ThemeData theme, String locale) {
     return Material(
-      color: Color(0xffECA00F),
+      color: widget.color ?? Color(0xffECA00F),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -279,6 +287,8 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
         upDownPageLimitPublishSubject: _upDownPageLimitPublishSubject!,
         upDownButtonEnableStatePublishSubject:
             _upDownButtonEnableStatePublishSubject!,
+            color: widget.color,
+            colorSelected: widget.colorSelected,
       ));
 
   void _onYearSelected(final int year) =>
@@ -293,6 +303,8 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
             lastDate: _lastDate,
             onMonthSelected: _onMonthSelected,
             locale: widget.locale,
+            color: widget.color,
+            colorSelected: widget.colorSelected,
           ));
 
   void _onMonthSelected(final DateTime date) => setState(() {
@@ -308,6 +320,8 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
           lastDate: _lastDate,
           onMonthSelected: _onMonthSelected,
           locale: widget.locale,
+          color: widget.color,
+          colorSelected: widget.colorSelected,
         );
       });
 
