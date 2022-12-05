@@ -19,6 +19,8 @@ Future<DateTime?> showMonthPicker({
   DateTime? firstDate,
   DateTime? lastDate,
   Locale? locale,
+  Color? color,
+  Color? colorSelected,
 }) async {
   assert(context != null);
   assert(initialDate != null);
@@ -34,6 +36,8 @@ Future<DateTime?> showMonthPicker({
       lastDate: lastDate,
       locale: locale,
       localizations: localizations,
+      color: color,
+      colorSelected: colorSelected,
     ),
   );
 }
